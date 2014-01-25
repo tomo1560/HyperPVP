@@ -139,8 +139,8 @@ public class FightThread extends IThread {
 				return;
 			}
 			
-			Bukkit.broadcastMessage(ChatColor.GREEN + "Starting game!");
-			/*this.matchAnnounce(30, 15000);
+			//Bukkit.broadcastMessage(ChatColor.GREEN + "Starting game!");
+			this.matchAnnounce(30, 15000);
 			this.matchAnnounce(15, 5000);
 			this.matchAnnounce(10, 1000);
 			Thread.sleep(1000);
@@ -151,7 +151,7 @@ public class FightThread extends IThread {
 			this.matchAnnounce(4, 1000);
 			this.matchAnnounce(3, 1000);
 			this.matchAnnounce(2, 1000);
-			this.matchAnnounce(1, 1000);*/
+			this.matchAnnounce(1, 1000);
 
 
 			if (this.isCancelled()) {
