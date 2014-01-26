@@ -15,6 +15,7 @@
  ******************************************************************************/
 package us.hyperpvp;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +23,6 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.anjocaido.groupmanager.GroupManager;
-import org.anjocaido.groupmanager.dataholder.worlds.WorldsHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -82,7 +81,6 @@ public class HyperPVP extends JavaPlugin {
 	public static Boolean hasMatchBeenAnnounced;
 	public static Boolean checkFirework;
 	public static Map<Location, Color> fireworkLocation;
-	public static WorldsHolder groupManager;
 	public static int games = 0;
 
 	public static Map<Detonator, Session> detonators;
@@ -93,7 +91,8 @@ public class HyperPVP extends JavaPlugin {
 	public static Player winningPlayer;
 	public static boolean needsRestart;
 	public static int callId;
-	
+	private String sqldb;
+
 	@Override
 	public void onEnable() {
 
@@ -105,7 +104,6 @@ public class HyperPVP extends JavaPlugin {
 		checkFirework = false;
 		hasMatchBeenAnnounced = false;
 		minutesLeft = 30;
-		groupManager = getWorldsHolder();
 		fireworkLocation = new HashMap<Location, Color>();
 		teamCycle = new HashMap<Player, ChatColor>();
 		threads = new ConcurrentHashMap<ThreadType, IThread>();
@@ -118,7 +116,19 @@ public class HyperPVP extends JavaPlugin {
 		this.initalizeConfiguration();
 
 		this.getLogger().info("Loading MySQL database.");
-		this.initalizeMySQL(true);
+
+		if (!this.initalizeMySQL(true, false)) {
+			this.getLogger().info("Trying SQLite instead!");
+			if (!this.initalizeMySQL(true, true)) {
+				this.getLogger().info("Failed!");
+				return;
+			} else {
+				this.getLogger().info("=========== ATTENTION! ===========");
+				this.getLogger().info("===    You are using SQLite    ===");
+				this.getLogger().info("=========== ATTENTION! ===========");
+			}
+			//return;
+		}
 
 		this.getLogger().info("Loading the 'Game' instance.");
 		game = new Game(this);
@@ -140,18 +150,18 @@ public class HyperPVP extends JavaPlugin {
 
 		this.getLogger().info("Performing task..");
 		callId = getServer().getScheduler().scheduleSyncRepeatingTask(this, CycleUtil.getCheckTask(), 0, 10);
-		
+
 		spectators.clear();
 		gameSessions.clear();
-		
+
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.setGameMode(GameMode.CREATIVE);
 			spectators.put(p.getName(), p);
 		}
 
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-	
-		
+
+
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "cycle wasteland");
 	}
 
@@ -159,6 +169,8 @@ public class HyperPVP extends JavaPlugin {
 	public void onDisable() {
 		try {
 
+			HyperPVP.getStorage().getConnection().close();
+			HyperPVP.getStorage().getStatement().close();
 			Bukkit.getScheduler().cancelTask(callId);
 
 			getMap().unload();
@@ -179,19 +191,33 @@ public class HyperPVP extends JavaPlugin {
 
 	}
 
-	public void initalizeMySQL(boolean clear) {
+	public boolean initalizeMySQL(boolean clear, boolean SQLite) {
 
 		try {
-			storage = new Storage(configuration.getConfig().getString("MySQL.Hostname"), configuration.getConfig().getString("MySQL.Username"), configuration.getConfig().getString("MySQL.Password"), configuration.getConfig().getString("MySQL.Database"));
 
+			if (SQLite) {
+				File file = new File(this.getDataFolder(), "hyperpvp.db");
+				
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				
+				storage = new Storage(file);
+			} else {
+				storage = new Storage(configuration.getConfig().getString("MySQL.Hostname"), configuration.getConfig().getString("MySQL.Username"), configuration.getConfig().getString("MySQL.Password"), configuration.getConfig().getString("MySQL.Database"));
+			}
+			
 			if (clear) {
 				storage.executeQuery("DELETE FROM servers_users");
 			}
 
-			//WebRequest.sendRequest("nousersonline", configuration.getConfig().getString("Server").toLowerCase());
-			//storage.executeQuery("DELETE FROM servers_users WHERE id = '" + configuration.getConfig().getString("Server") + "'");
-		} catch (SQLException e) {
+			return true;
+
+
+		} catch (Exception e) {
+			this.getLogger().info("Could not connect, reason; ");
 			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -228,26 +254,6 @@ public class HyperPVP extends JavaPlugin {
 		}else {
 			player.setPlayerListName(color + player.getName());
 		}
-	}
-
-	public static WorldsHolder getGroupManager() {
-		return groupManager;
-	}
-
-	public static WorldsHolder getWorldsHolder() {
-
-		Plugin p = Bukkit.getServer().getPluginManager().getPlugin("GroupManager");
-
-		if (p != null) {
-			if (!Bukkit.getServer().getPluginManager().isPluginEnabled(p)) {
-				Bukkit.getServer().getPluginManager().enablePlugin(p);
-			}
-		}
-
-		GroupManager gm = (GroupManager) p;
-		WorldsHolder wd = gm.getWorldsHolder();
-
-		return wd;
 	}
 
 	public static HyperPVP getJavaPlugin() {

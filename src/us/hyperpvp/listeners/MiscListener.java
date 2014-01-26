@@ -20,7 +20,6 @@ import java.io.DataOutputStream;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
-import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -109,12 +108,6 @@ public class MiscListener implements Listener {
 		}
 	}
 	
-	public String getPrefix(Player base) {
-		AnjoPermissionsHandler handler = HyperPVP.getGroupManager().getWorldPermissions(base);
-		return handler.getUserPrefix(base.getName());
-	}
-
-
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
 	{
