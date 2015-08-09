@@ -18,7 +18,7 @@ package us.hyperpvp.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldEvent;
+import net.minecraft.server.v1_7_R4.PacketPlayOutWorldEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;

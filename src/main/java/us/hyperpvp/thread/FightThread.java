@@ -19,11 +19,11 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import net.minecraft.server.v1_7_R1.MinecraftServer;
+import net.minecraft.server.v1_7_R4.MinecraftServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 
 import us.hyperpvp.HyperPVP;
 import us.hyperpvp.game.GameType;

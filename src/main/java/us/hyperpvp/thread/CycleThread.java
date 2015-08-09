@@ -20,9 +20,9 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import net.minecraft.server.v1_7_R1.MinecraftServer;
+import net.minecraft.server.v1_7_R4.MinecraftServer;
 
-import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_7_R4.CraftServer;
 import org.bukkit.entity.Player;
 import us.hyperpvp.HyperPVP;
 import us.hyperpvp.game.map.GameMap;

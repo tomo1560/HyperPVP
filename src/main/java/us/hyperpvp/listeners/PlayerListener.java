@@ -20,8 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R1.EnumClientCommand;
-import net.minecraft.server.v1_7_R1.PacketPlayInClientCommand;
+import net.minecraft.server.v1_7_R4.EnumClientCommand;
+import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,7 +30,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -362,7 +362,7 @@ public class PlayerListener implements Listener {
 
 				event.setCancelled(true);
 
-				Inventory inventory = new org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCustom(event.getPlayer(), 9, ChatColor.RESET + "Team Selection");
+				Inventory inventory = new org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom(event.getPlayer(), 9, ChatColor.RESET + "Team Selection");
 
 				ItemStack item = new ItemStack(Material.NETHER_STAR);
 				ItemMeta meta = item.getItemMeta();
@@ -473,7 +473,7 @@ public class PlayerListener implements Listener {
 			{
 				event.setCancelled(true);
 
-				Inventory inventory = new org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCustom(event.getPlayer(), 9, "About HyperPVP");
+				Inventory inventory = new org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom(event.getPlayer(), 9, "About HyperPVP");
 
 				List<String> lore = new ArrayList<String>();
 

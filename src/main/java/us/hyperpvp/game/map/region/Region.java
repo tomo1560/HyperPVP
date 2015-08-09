@@ -23,8 +23,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCustom;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventory;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCustom;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
